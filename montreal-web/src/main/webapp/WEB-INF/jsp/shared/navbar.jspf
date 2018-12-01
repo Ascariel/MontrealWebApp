@@ -1,0 +1,107 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="container" style="margin-bottom: 90px;">
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand " href="/">Centro de Estudios Montreal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <!-- Left -->
+      <ul class="navbar-nav mr-auto ml-5">
+        <c:if test="${username != null }">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle t" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Acciones ${ perfil }</button>
+
+            <c:choose>
+              <c:when test="${perfil == 'CEL'}">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/cel/listado-programas-postulables">Ver Listado Programas Estudio</a> 
+                  <a class="dropdown-item" href="/cel/detalle-programa-postulado-cel">Estado Postulación Actual</a> 
+                  <a class="dropdown-item" href="/cel/listado-postulaciones-familias">Solicitudes de Postulación Familias</a> 
+                  <a class="dropdown-item" href="/cel/listado-acuerdos-alumnos">Solicitudes de Postulación Alumnos</a> 
+<!--                   <a class="dropdown-item" href="/cel/ingresar-notas">Ver Notas</a>  -->
+                  <a class="dropdown-item" href="/cel/ingresar-notas">Ingreso de Notas</a> 
+                  <a class="dropdown-item" href="/detalle-cel?id=${id_actor}">Ver Perfil</a>
+                </div>
+              </c:when>
+              <c:when test="${perfil == 'FAMILIA'}">
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/familia/listado-cel-postulables">Ver Centros de Estudio Locales</a> <a
+                    class="dropdown-item" href="/familia/postulaciones-familia-cel">Mis Postulaciones</a> <a class="dropdown-item"
+                    href="/familia/listado-acuerdos-alumno-familia">Solicitudes Alumnos</a> 
+                    <a class="dropdown-item" href="/editar-familia">Editar Perfil</a>
+                </div>
+              </c:when>
+              <c:when test="${perfil == 'ALUMNO' }">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/alumno/listado-programas-postulables">Listado Programas Estudio</a> 
+<!--                   <a class="dropdown-item" href="/alumno/postulaciones-programas">Mis Postulaciones</a>  -->
+<!--                   <a class="dropdown-item" href="/alumno/registro-notas">Registro de Notas</a>  -->
+<!--                   <a class="dropdown-item" href="/alumno/mis-programas">Programas Aceptados</a>  -->
+                  <a class="dropdown-item" href="/alumno/editar-alumno">Editar Perfil</a>
+                </div>
+              </c:when>
+            </c:choose>
+          </div>
+        </c:if>
+
+      </ul>
+      <!-- Right -->
+      <ul class="navbar-nav float-left">
+        <!-- DESLOGUEADO -->
+        <c:if test="${username == null}">
+          <li class="nav-item"><a class="nav-link" href="/login">Ingresar</a></li>
+          <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Registrarse </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/crear-alumno">Alumno</a> 
+              <a class="dropdown-item" href="/crear-familia">Familia</a>
+            </div>
+          </li>
+        </c:if>
+
+
+
+
+
+
+        <!-- NAVBAR ESPECIFICA SEGUN PERFIL -->
+        <c:if test="${username != null}">
+          <li class="nav-item"><a class="nav-link" href=""> Usuario: ${ username }</a></li>
+          <li class="nav-item"><a class="nav-link" href=""> | </a></li>
+          <li class="nav-item"><a class="nav-link" href="">Perfil: ${ perfil }</a></li>
+
+
+          <li class="nav-item"><a class="nav-link" href=""> | </a></li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Salir</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+<div class="row">
+	<div class="col-md-8 offset-md-4" >
+	   <p class="text-danger">${error}</p>
+	</div>
+	
+	<c:if test="${errors != null}">
+		<div class="col-md-8 offset-md-4" >
+		   <h5 class=""><b>Se han encontrado los siguientes errores:</b></h5>
+		   </br>
+		</div>	
+		<c:forEach items="${errors}" var="specific_error" >
+			<div class="col-md-8 offset-md-4" >
+			   <p class="text-danger">- <i>${specific_error.getDefaultMessage() } </i></p>
+			</div>	
+		</c:forEach>
+	</c:if>
+</div>
+ 
